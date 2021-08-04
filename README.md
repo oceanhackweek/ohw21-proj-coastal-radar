@@ -1,4 +1,6 @@
 # ohw21-proj-coastal-radar
 
-Panagiotis Mitsopoulos
-Filipe Pereira
+## Participants
+Panagiotis Mitsopoulos\
+Filipe Pereira\
+Anrijs Abele\
