@@ -3,4 +3,4 @@
 ## Participants
 Panagiotis Mitsopoulos\
 Filipe Pereira\
-Anrijs Abele\
+Anrijs Abele
