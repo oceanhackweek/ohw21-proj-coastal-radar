@@ -24,6 +24,30 @@ def bounds(lats, lons, cycles, lat_min, lat_max, lon_min, lon_max, cycle_min, cy
     
     return point_idx, cycle_idx
 
+def quiver_comp(magnitude, lat, lon):
+    """
+    Implements trigonometry to calculate the x- and y-components of cross-track
+    geostrophic current
+    Input:
+    magnitude <- array-like object that consists of total geostrophic speeds
+    lat <- array-like object that consists of latitudes of points
+    lon <- array-like object that consists of longitudes of points
+    Output:
+    u <- zonal component
+    v <- meridional component
+    theta <- angle between the vector and x-axis
+    """
+    #calculate dlat and dlon
+    dlat = lat[1] - lat[0] ##we can assume the angle of track remains the same; hence, the direction of geostrophic current is perpendicular
+    dlon = lon[1] - lon[0]
+    #calculate the angle between the x-axis and track
+    theta = np.arctan2(dlat, dlon) #no need to use haversine because all other terms cancel off, leaving dlat*R*pi/180 and dlon*R*pi/180 as the length
+    #calculate angle for vector (out-of-phase)
+    vect_angle = theta - np.pi/2
+    #calculate components
+    u = magnitude * np.cos(vect_angle)
+    v = magnitude * np.sin(vect_angle)
+    return u, v, vect_angle, theta
 """
 The functions were developed by CTOH team at LEGOS, in particular by F.Birol and F.Leger,
 who courteously provided the script. 
@@ -66,7 +90,7 @@ def genweights(p, q, dt):
 
     #Compute the error 
     error = np.sqrt(np.sum(cn.transpose()/(sn*dt))**2. + np.sum((cn.transpose()/(sn*dt))**2.))
-
+    
     return cn, error
 
 def geost1D(x,y,m,ssh):
