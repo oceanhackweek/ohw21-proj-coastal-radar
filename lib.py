@@ -17,8 +17,6 @@ def bounds(lats, lons, cycles, lat_min, lat_max, lon_min, lon_max, cycle_min, cy
     lon_idx = np.array([i[0] for i in enumerate(lons) if i[1] <= lon_max and i[1] >= lon_min])
     #join the lists
     point_idx = np.array([i[1] for i in enumerate(lat_idx) if i[1] in lon_idx])
-    #point_idx2 = np.array([i[1] for i in enumerate(lon_idx) if i[1] in lat_idx])
-    #assert(len(point_idx) == len(point_idx2))
     #then for cycles
     cycle_idx = np.array([i[0] for i in enumerate(cycles) if i[1] <= cycle_max and i[1] >= cycle_min])
     
