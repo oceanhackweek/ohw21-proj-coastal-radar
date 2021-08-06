@@ -136,7 +136,59 @@ def geost1D(x,y,m,ssh):
             u[i]+=-(g*dh)/(f*dist)*cn[j+m-1]
 
     return u
+def loess(data, mask, step, freq_c, interp=True):
+    """
+    From loess.c developed by Mog2d team in 1D                           
+                                   
+    INPUT:                               
+        data: data to be filtered           
+        mask: fill value                       
+        step: stepsize               
+        freq_c: cutoff frequency (frequence de coupure du filtre)
+        interp : interpolation true/false       
+                                   
+    OUTPUT:                               
+        smoothed_data: filtered data  
 
+    """
+
+    # Determination of weights...
+    nval=len(data)
+    n=int(round(float(freq_c)/step))
+    n=min(nval,n)
+    out=np.empty(nval)
+    row_data=np.ma.masked_equal(data, mask)
+    weight=np.zeros(n)
+
+    for i in range(n):
+        lx=i*step/freq_c
+        q=abs(lx)
+        if (q <= 1):
+            dum=1-q*q*q
+            weight[i]=dum*dum*dum
+
+    # Filtering...
+    for k in range(nval):
+        tmp=0.
+        sum=0.
+        imin=max(0,k-n+1)
+        imax=min(nval,k+n)
+        for i in range(imin,imax):
+            z=row_data[i]
+            if (not np.ma.is_masked(z)):
+                w=weight[abs(i-k)]
+                sum=sum+w
+                tmp=tmp+z*w
+       
+        if (sum!=0):
+            out[k]=tmp/sum
+        else:
+            out[k]=mask
+    
+    if not interp:    
+        out[np.where(row_data.recordmask)]=np.nan
+        
+    return out
 
 
 
