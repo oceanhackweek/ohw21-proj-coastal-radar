@@ -1,0 +1,16 @@
+name: ohw21-proj-coastal-radar
+channels:
+  - conda-forge
+dependencies:
+  - jupyter
+  - jupyterlab
+  - xarray
+  - numpy
+  - netcdf4
+  - matplotlib
+  - cartopy
+  - os
+  - sys
+  - datetime
+  - scipy
+  - cmocean
