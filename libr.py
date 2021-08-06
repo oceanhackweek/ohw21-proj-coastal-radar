@@ -91,7 +91,7 @@ def genweights(p, q, dt):
     
     return cn, error
 
-def geost1D(x,y,m,ssh):
+def geost1D(x,y,ssh):
     """% Alongtrack Geostrophic speed calculation 1D
 
         INPuT:
@@ -103,6 +103,7 @@ def geost1D(x,y,m,ssh):
                 u: speed
 
     """
+    m = 1.0       # derivative window length (taille de la fenetre de calcul des derivees) of 1.0
     g=9.81        # Gravity
     f0=2*7.29e-5  # Coriolis f=f0*sin(lat)
     deg2rad=np.pi/180.
